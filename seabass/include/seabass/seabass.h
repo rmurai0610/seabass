@@ -1,0 +1,11 @@
+#pragma once
+#include <seabass/context.h>
+#include <seabass/opengl_loader.h>
+#include <seabass/program.h>
+#include <seabass/recorder.h>
+#include <seabass/themes.h>
+#include <seabass/vertex_array.h>
+#include <seabass/vertex_buffer.h>
+#include <seabass/widgets/widgets.h>
+#include <seabass/imgui/image.h>
+#include <seabass/window.h>

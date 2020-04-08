@@ -1,0 +1,3 @@
+add_executable(screen_record main.cc)
+target_link_libraries(screen_record seabass)
+target_compile_features(screen_record PRIVATE cxx_std_17)
