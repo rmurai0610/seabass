@@ -1,6 +1,7 @@
 #pragma once
 #include <seabass/context.h>
 #include <seabass/imgui/image.h>
+#include <seabass/loader/icl_trajectory.h>
 #include <seabass/loader/trajectory.h>
 #include <seabass/loader/tum_trajectory.h>
 #include <seabass/opengl_loader.h>
