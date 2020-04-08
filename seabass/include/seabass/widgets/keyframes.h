@@ -27,6 +27,7 @@ public:
     void add_keyframe(Sophus::SE3f T_wc) {
         poses_.push_back(sb::Widget::Camera::fix_coordinate_frame(T_wc, y_up_));
     }
+    void set_keyframes(std::vector<Sophus::SE3f> poses) { poses_ = poses; }
 
     void render(const sb::Program *program,
                 const sb::ColorScheme *colorscheme) override {
