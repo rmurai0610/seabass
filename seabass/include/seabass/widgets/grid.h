@@ -1,28 +1,67 @@
 #pragma once
+#include <seabass/camera.h>
 #include <seabass/vertex_array.h>
 #include <seabass/vertex_buffer.h>
 #include <seabass/widgets/base.h>
+
+#include <Eigen/Dense>
 
 namespace sb {
 namespace Widget {
 class Grid : public sb::Widget::Base {
 private:
-    float y_pos_;
+    float height_;
+    sb::AxisDirection up_axis_;
     size_t n_partition_;
     float scale_;
     float line_width_;
 
+    Eigen::Vector3f fix_coordinate_frame(float x, float y, float z) {
+        Eigen::Vector3f vec(x, y, z);
+        if (up_axis_ == AxisDirection::AxisX) {
+            float tmp = vec.y();
+            vec.y() = vec.x();
+            vec.x() = tmp;
+            return vec;
+        }
+        if (up_axis_ == AxisDirection::AxisNegX) {
+            float tmp = -vec.y();
+            vec.y() = vec.x();
+            vec.x() = tmp;
+            return vec;
+        }
+        if (up_axis_ == AxisDirection::AxisZ) {
+            float tmp = vec.y();
+            vec.y() = vec.z();
+            vec.z() = tmp;
+            return vec;
+        }
+        if (up_axis_ == AxisDirection::AxisNegZ) {
+            float tmp = -vec.y();
+            vec.y() = vec.z();
+            vec.z() = tmp;
+            return vec;
+        }
+        if (up_axis_ == AxisDirection::AxisNegY) {
+            vec.y() *= -1;
+            return vec;
+        }
+
+        return vec;
+    }
+
 public:
-    Grid(float y_pos, size_t n_partition = 10, float scale = 1.f,
-         float line_width = 1.f)
-        : y_pos_(y_pos),
+    Grid(float height, sb::AxisDirection up_axis = sb::AxisDirection::AxisY,
+         size_t n_partition = 10, float scale = 1.f, float line_width = 1.f)
+        : height_(height),
+          up_axis_(up_axis),
           n_partition_(n_partition),
           scale_(scale),
           line_width_(line_width),
           sb::Widget::Base() {}
 
-    const float &y_pos() const { return y_pos_; }
-    float &y_pos() { return y_pos_; }
+    const float &y_pos() const { return height_; }
+    float &y_pos() { return height_; }
     const size_t &n_partition() const { return n_partition_; }
     size_t &n_partition() { return n_partition_; }
     const float &scale() const { return scale_; }
@@ -33,22 +72,27 @@ public:
     void render(const sb::Program *program,
                 const sb::ColorScheme *colorscheme) override {
         std::vector<float> vertices, colors;
+        std::vector<Eigen::Vector3f> grid_vertices;
         float mid_point = scale_ * float(n_partition_) / 2;
+
         for (size_t i = 0; i <= n_partition_; ++i) {
-            vertices.push_back(-mid_point);
-            vertices.push_back(y_pos_);
-            vertices.push_back(i * scale_ - mid_point);
-            vertices.push_back(mid_point);
-            vertices.push_back(y_pos_);
-            vertices.push_back(i * scale_ - mid_point);
+            grid_vertices.push_back(fix_coordinate_frame(
+                -mid_point, height_, i * scale_ - mid_point));
+            grid_vertices.push_back(fix_coordinate_frame(
+                mid_point, height_, i * scale_ - mid_point));
         }
+
         for (size_t i = 0; i <= n_partition_; ++i) {
-            vertices.push_back(i * scale_ - mid_point);
-            vertices.push_back(y_pos_);
-            vertices.push_back(-mid_point);
-            vertices.push_back(i * scale_ - mid_point);
-            vertices.push_back(y_pos_);
-            vertices.push_back(mid_point);
+            grid_vertices.push_back(fix_coordinate_frame(i * scale_ - mid_point,
+                                                         height_, -mid_point));
+            grid_vertices.push_back(fix_coordinate_frame(i * scale_ - mid_point,
+                                                         height_, mid_point));
+        }
+
+        for (auto &v : grid_vertices) {
+            vertices.push_back(v.x());
+            vertices.push_back(v.y());
+            vertices.push_back(v.z());
         }
 
         for (size_t i = 0; i < vertices.size() / 3; ++i) {

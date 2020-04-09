@@ -11,6 +11,7 @@ int main() {
     auto camera = ctx.create_camera3d(45.f, {0.1, 100.f});
     auto widgets = sb::Widgets(camera, ctx.colorscheme());
     widgets.add<sb::Widget::Cube>();
+    widgets.add<sb::Widget::Grid>(-1.f, camera->up_vec());
     while (ctx.render()) {
         widgets.render();
     }

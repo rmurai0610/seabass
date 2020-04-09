@@ -28,6 +28,7 @@ private:
         glfwMakeContextCurrent(window_);
         glfwSwapInterval(1);  // Enable vsync
         if (!glfwInit()) {
+            std::cerr << "Failed to initialize glfw.\n";
             std::exit(EXIT_FAILURE);
         }
         // Initialize OpenGL loader
@@ -48,6 +49,7 @@ private:
                     // is likely to requires some form of initialization.
 #endif
         if (err) {
+            std::cerr << "Failed to initialize opengl loader.\n";
             std::exit(EXIT_FAILURE);
         }
     }

@@ -70,9 +70,12 @@ public:
         return window_.get();
     }
 
-    sb::Camera *create_camera3d(float FoV, std::pair<float, float> range) {
+    sb::Camera *create_camera3d(
+        float FoV, std::pair<float, float> range,
+        sb::AxisDirection right_vec = sb::AxisDirection::AxisX,
+        sb::AxisDirection up_vec = sb::AxisDirection::AxisY) {
         camera_ = std::make_unique<sb::ArcBallCamera>(
-            window_.get(), FoV, range.first, range.second);
+            window_.get(), FoV, range.first, range.second, right_vec, up_vec);
         return camera_.get();
     }
 
