@@ -10,7 +10,7 @@ private:
 
 public:
     Coordinate(float line_width = 1.f)
-        : line_width_(line_width), sb::Widget::Base() {}
+        : sb::Widget::Base(), line_width_(line_width) {}
 
     const float &line_width() const { return line_width_; }
     float &line_width() { return line_width_; }

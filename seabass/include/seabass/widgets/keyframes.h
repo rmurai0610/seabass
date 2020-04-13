@@ -18,10 +18,10 @@ private:
 
 public:
     Keyframes(bool y_up = true, float scale = 1.f, float line_width = 1.f)
-        : y_up_(y_up),
+        : sb::Widget::Base(),
+          y_up_(y_up),
           scale_(scale),
-          line_width_(line_width),
-          sb::Widget::Base() {}
+          line_width_(line_width) {}
     const float &line_width() const { return line_width_; }
     float &line_width() { return line_width_; }
     void add_keyframe(Sophus::SE3f T_wc) {

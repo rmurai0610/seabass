@@ -14,7 +14,6 @@ class Camera {
 protected:
     sb::Window *window_;
     float FoV_, min_disp_range_, max_disp_range_;
-    bool left_drag_, right_drag_;
     sb::AxisDirection right_vec_, up_vec_;
     glm::mat4 coordinate_system_;
 
@@ -56,9 +55,7 @@ public:
           min_disp_range_(min_disp_range),
           max_disp_range_(max_disp_range),
           right_vec_(right_vec),
-          up_vec_(up_vec),
-          left_drag_(false),
-          right_drag_(false) {
+          up_vec_(up_vec) {
         set_up_coordinate_frame();
     }
 
@@ -72,7 +69,6 @@ public:
 
 class ArcBallCamera : public Camera {
 private:
-    double last_mx_, last_my_, cur_mx_, cur_my_;
     double yaw_, pitch_;
     double yaw_step_, pitch_step_, dist_step_;
     double dist_;
@@ -97,10 +93,6 @@ public:
                   sb::AxisDirection up_vec)
         : Camera(window, FoV, min_disp_range, max_disp_range, right_vec,
                  up_vec),
-          last_mx_(0),
-          last_my_(0),
-          cur_mx_(0),
-          cur_my_(0),
           yaw_(M_PI_2),
           pitch_(M_PI_2),
           yaw_step_(0.005),

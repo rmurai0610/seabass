@@ -53,12 +53,12 @@ private:
 public:
     Grid(float height, sb::AxisDirection up_axis = sb::AxisDirection::AxisY,
          size_t n_partition = 10, float scale = 1.f, float line_width = 1.f)
-        : height_(height),
+        : sb::Widget::Base(),
+          height_(height),
           up_axis_(up_axis),
           n_partition_(n_partition),
           scale_(scale),
-          line_width_(line_width),
-          sb::Widget::Base() {}
+          line_width_(line_width) {}
 
     const float &y_pos() const { return height_; }
     float &y_pos() { return height_; }

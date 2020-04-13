@@ -120,8 +120,8 @@ public:
     Image(const std::string &filename, int color_depths = 8, int width = -1,
           int height = -1, float alpha = 1.f)
         : color_depths_(color_depths),
-          height_(height),
           width_(width),
+          height_(height),
           alpha_(alpha * 255),
           data_(nullptr) {
         glGenTextures(1, &id_);

@@ -16,11 +16,11 @@ private:
 public:
     Camera(Sophus::SE3f T_wc = Sophus::SE3f(), bool y_up = true,
            float scale = 1.f, float line_width = 1.f)
-        : scale_(scale),
-          line_width_(line_width),
-          y_up_(y_up),
+        : sb::Widget::Base(),
           T_wc_(fix_coordinate_frame(T_wc, y_up)),
-          sb::Widget::Base() {}
+          y_up_(y_up),
+          scale_(scale),
+          line_width_(line_width) {}
 
     const float &scale() const { return scale_; }
     float &scale() { return scale_; }
