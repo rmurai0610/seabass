@@ -63,47 +63,9 @@ public:
     }
 
     virtual ~Camera() {}
-
     virtual void activate() = 0;
-    /*
-    {
-        if (ImGui::GetIO().WantCaptureMouse) {
-            return;
-        }
-        double xpos, ypos;
-        glfwGetCursorPos(window_->window(), &xpos, &ypos);
-        int left_state =
-            glfwGetMouseButton(window_->window(), GLFW_MOUSE_BUTTON_LEFT);
-        int right_state =
-            glfwGetMouseButton(window_->window(), GLFW_MOUSE_BUTTON_RIGHT);
-        if (left_state == GLFW_RELEASE) {
-            left_release(xpos, ypos);
-            left_drag_ = false;
-        }
-        if (right_state == GLFW_RELEASE) {
-            right_release(xpos, ypos);
-            right_drag_ = false;
-        }
-        if (left_state == GLFW_PRESS) {
-            if (left_drag_) {
-                left_drag(xpos, ypos);
-            } else {
-                left_press(xpos, ypos);
-                left_drag_ = true;
-            }
-        }
-        if (right_state == GLFW_PRESS) {
-            if (right_drag_) {
-                right_drag(xpos, ypos);
-            } else {
-                right_press(xpos, ypos);
-                right_drag_ = true;
-            }
-        }
-        scroll(ImGui::GetIO().MouseWheelH, ImGui::GetIO().MouseWheel);
-    } */
-
     virtual glm::mat4 MVP() const = 0;
+
     sb::AxisDirection up_vec() const { return up_vec_; }
     sb::AxisDirection right_vec() const { return right_vec_; }
 };
