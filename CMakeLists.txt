@@ -13,14 +13,16 @@ endif()
 find_package(OpenGL REQUIRED)
 find_package(glfw3 REQUIRED)
 
+execute_process(COMMAND bash -c "${PROJECT_SOURCE_DIR}/build.sh")
+
 add_library(imgui
-  imgui/imgui_demo.cpp
-  imgui/imgui.cpp
-  imgui/imgui_draw.cpp
-  imgui/imgui_widgets.cpp
-  imgui/examples/imgui_impl_glfw.cpp
-  imgui/examples/imgui_impl_opengl3.cpp
-  imgui/examples/libs/gl3w/GL/gl3w.c
+  build/imgui/imgui_demo.cpp
+  build/imgui/imgui.cpp
+  build/imgui/imgui_draw.cpp
+  build/imgui/imgui_widgets.cpp
+  build/imgui/examples/imgui_impl_glfw.cpp
+  build/imgui/examples/imgui_impl_opengl3.cpp
+  build/imgui/examples/libs/gl3w/GL/gl3w.c
 )
 set_target_properties(imgui PROPERTIES LINKER_LANGUAGE CXX)
 if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
@@ -33,9 +35,9 @@ target_compile_options(imgui PRIVATE -Werror -Wall)
 target_compile_features(imgui PRIVATE cxx_std_17)
 target_compile_definitions(imgui PUBLIC IMGUI_IMPL_OPENGL_LOADER_GL3W)
 target_include_directories(imgui PUBLIC
-  imgui/
-  imgui/examples/
-  imgui/examples/libs/gl3w/
+  build/imgui/
+  build/imgui/examples/
+  build/imgui/examples/libs/gl3w/
 )
 target_include_directories(imgui SYSTEM PUBLIC $ENV{INCLUDE})
 target_link_libraries(imgui PUBLIC
