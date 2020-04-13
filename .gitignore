@@ -2,5 +2,4 @@ build
 .clangd
 compile_commands.json
 imgui.ini
-imgui/
 *.mp4
