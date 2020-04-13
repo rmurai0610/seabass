@@ -15,17 +15,8 @@ protected:
     sb::Window *window_;
     float FoV_, min_disp_range_, max_disp_range_;
     bool left_drag_, right_drag_;
-    static inline double scroll_x_, scroll_y_;
     sb::AxisDirection right_vec_, up_vec_;
     glm::mat4 coordinate_system_;
-
-    virtual void left_release(double x, double y) {}
-    virtual void right_release(double x, double y) {}
-    virtual void left_drag(double x, double y) {}
-    virtual void right_drag(double x, double y) {}
-    virtual void left_press(double x, double y) {}
-    virtual void right_press(double x, double y) {}
-    virtual void scroll(double x, double y){};
 
 private:
     glm::vec3 to_vec3(AxisDirection axis) const {
@@ -69,17 +60,13 @@ public:
           left_drag_(false),
           right_drag_(false) {
         set_up_coordinate_frame();
-        glfwSetScrollCallback(window_->window(), scroll_callback);
     }
 
     virtual ~Camera() {}
 
-    static void scroll_callback(GLFWwindow *window, double x, double y) {
-        Camera::scroll_x_ = x;
-        Camera::scroll_y_ = y;
-    }
-
-    void activate() {
+    virtual void activate() = 0;
+    /*
+    {
         if (ImGui::GetIO().WantCaptureMouse) {
             return;
         }
@@ -113,10 +100,8 @@ public:
                 right_drag_ = true;
             }
         }
-        scroll(Camera::scroll_x_, Camera::scroll_y_);
-        Camera::scroll_x_ = 0;
-        Camera::scroll_y_ = 0;
-    }
+        scroll(ImGui::GetIO().MouseWheelH, ImGui::GetIO().MouseWheel);
+    } */
 
     virtual glm::mat4 MVP() const = 0;
     sb::AxisDirection up_vec() const { return up_vec_; }
@@ -162,45 +147,26 @@ public:
           dist_(5.f),
           at_(0, 0, 0) {}
 
-    void left_press(double x, double y) override {
-        last_mx_ = x;
-        last_my_ = y;
-        cur_mx_ = x;
-        cur_my_ = y;
-    }
+    void activate() override {
+        auto mouse_delta = ImGui::GetIO().MouseDelta;
+        if (ImGui::GetIO().MouseDown[0]) {
+            // Left mouse is pressed down
+            yaw_ += mouse_delta.x * yaw_step_;
+            pitch_ -= mouse_delta.y * pitch_step_;
+        }
+        if (ImGui::GetIO().MouseDown[1]) {
+            // Right mouse is pressed down
+            glm::vec3 up(0, 1, 0);
+            glm::vec3 dir = glm::normalize(at_ - eye());
+            glm::vec3 tangent = glm::normalize(glm::cross(dir, up));
+            glm::vec3 bi_tangent = glm::cross(dir, tangent);
+            at_ -= (mouse_delta.x / 500.f) * tangent +
+                   (mouse_delta.y / 500.f) * bi_tangent;
+        }
+        // Handle Scrolling
+        dist_ += ImGui::GetIO().MouseWheel * dist_step_;
 
-    void right_press(double x, double y) override {
-        last_mx_ = x;
-        last_my_ = y;
-        cur_mx_ = x;
-        cur_my_ = y;
-    }
-
-    void left_drag(double x, double y) override {
-        yaw_ += (x - last_mx_) * yaw_step_;
-        pitch_ -= (y - last_my_) * pitch_step_;
-        restrict();
-        cur_mx_ = x;
-        cur_my_ = y;
-        last_mx_ = x;
-        last_my_ = y;
-    }
-
-    void right_drag(double x, double y) override {
-        glm::vec3 up(0, 1, 0);
-        glm::vec3 dir = glm::normalize(at_ - eye());
-        glm::vec3 tangent = glm::normalize(glm::cross(dir, up));
-        glm::vec3 bi_tangent = glm::cross(dir, tangent);
-        at_ -= float((x - last_mx_) / 500.f) * tangent +
-               float((y - last_my_) / 500.f) * bi_tangent;
-        cur_mx_ = x;
-        cur_my_ = y;
-        last_mx_ = x;
-        last_my_ = y;
-    }
-
-    void scroll(double x, double y) override {
-        dist_ += y * dist_step_;
+        // Restrict the position of the camera
         restrict();
     }
 
