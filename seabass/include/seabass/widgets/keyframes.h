@@ -1,4 +1,7 @@
 #pragma once
+
+#if __has_include(<Eigen/Dense>)
+#if __has_include(<sophus/se3.hpp>)
 #include <seabass/vertex_array.h>
 #include <seabass/vertex_buffer.h>
 #include <seabass/widgets/base.h>
@@ -11,30 +14,23 @@ namespace sb {
 namespace Widget {
 class Keyframes : public sb::Widget::Base {
 private:
-    bool y_up_;
     float scale_;
     float line_width_;
     std::vector<Sophus::SE3f> poses_;
 
 public:
-    Keyframes(bool y_up = true, float scale = 1.f, float line_width = 1.f)
-        : sb::Widget::Base(),
-          y_up_(y_up),
-          scale_(scale),
-          line_width_(line_width) {}
+    Keyframes(float scale = 1.f, float line_width = 1.f)
+        : sb::Widget::Base(), scale_(scale), line_width_(line_width) {}
     const float &line_width() const { return line_width_; }
     float &line_width() { return line_width_; }
-    void add_keyframe(Sophus::SE3f T_wc) {
-        poses_.push_back(sb::Widget::Camera::fix_coordinate_frame(T_wc, y_up_));
-    }
+    void add_keyframe(const Sophus::SE3f &T_wc) { poses_.push_back(T_wc); }
     void set_keyframes(std::vector<Sophus::SE3f> poses) { poses_ = poses; }
 
     void render(const sb::Program *program,
                 const sb::ColorScheme *colorscheme) override {
         std::vector<float> vertices, colors;
         for (auto &T_wc : poses_) {
-            std::vector<float> vs =
-                sb::Widget::Camera::camera_vertices(T_wc, scale_);
+            auto vs = sb::Widget::Camera::camera_vertices(T_wc, scale_);
             vertices.insert(vertices.end(), vs.begin(), vs.end());
         }
         for (size_t i = 0; i < vertices.size() / 3; ++i) {
@@ -53,3 +49,5 @@ public:
 };
 }  // namespace Widget
 }  // namespace sb
+#endif
+#endif

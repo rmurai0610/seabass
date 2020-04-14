@@ -1,4 +1,7 @@
 #pragma once
+
+#if __has_include(<Eigen/Dense>)
+#if __has_include(<sophus/se3.hpp>)
 #include <seabass/vertex_array.h>
 #include <seabass/vertex_buffer.h>
 #include <seabass/widgets/base.h>
@@ -11,19 +14,16 @@ namespace sb {
 namespace Widget {
 class CameraTrajectory : public sb::Widget::Base {
 private:
-    bool y_up_;
     float line_width_;
     std::vector<Sophus::SE3f> poses_;
 
 public:
-    CameraTrajectory(bool y_up = true, float line_width = 1.f)
-        : sb::Widget::Base(), y_up_(y_up), line_width_(line_width) {}
+    CameraTrajectory(float line_width = 1.f)
+        : sb::Widget::Base(), line_width_(line_width) {}
 
     const float &line_width() const { return line_width_; }
     float &line_width() { return line_width_; }
-    void add_pose(Sophus::SE3f T_wc) {
-        poses_.push_back(sb::Widget::Camera::fix_coordinate_frame(T_wc, y_up_));
-    }
+    void add_pose(const Sophus::SE3f &T_wc) { poses_.push_back(T_wc); }
     void set_poses(std::vector<Sophus::SE3f> poses) { poses_ = poses; }
 
     void render(const sb::Program *program,
@@ -50,3 +50,5 @@ public:
 };
 }  // namespace Widget
 }  // namespace sb
+#endif
+#endif

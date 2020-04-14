@@ -9,10 +9,10 @@
 * OpenGL
 * glfw3
 * glm
-* Eigen3
-* Sophus (https://github.com/strasdat/Sophus)
 * CMake
 * ffmpeg
 ### Optional Dependecies
 * OpenCV 3
+* Eigen3
+* Sophus (https://github.com/strasdat/Sophus)
 

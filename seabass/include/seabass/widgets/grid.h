@@ -4,8 +4,6 @@
 #include <seabass/vertex_buffer.h>
 #include <seabass/widgets/base.h>
 
-#include <Eigen/Dense>
-
 namespace sb {
 namespace Widget {
 class Grid : public sb::Widget::Base {
@@ -16,34 +14,34 @@ private:
     float scale_;
     float line_width_;
 
-    Eigen::Vector3f fix_coordinate_frame(float x, float y, float z) {
-        Eigen::Vector3f vec(x, y, z);
+    std::vector<float> fix_coordinate_frame(float x, float y, float z) {
+        std::vector<float> vec({x, y, z});
         if (up_axis_ == AxisDirection::AxisX) {
-            float tmp = vec.y();
-            vec.y() = vec.x();
-            vec.x() = tmp;
+            float tmp = vec[1];
+            vec[1] = vec[0];
+            vec[0] = tmp;
             return vec;
         }
         if (up_axis_ == AxisDirection::AxisNegX) {
-            float tmp = -vec.y();
-            vec.y() = vec.x();
-            vec.x() = tmp;
+            float tmp = -vec[1];
+            vec[1] = vec[0];
+            vec[0] = tmp;
             return vec;
         }
         if (up_axis_ == AxisDirection::AxisZ) {
-            float tmp = vec.y();
-            vec.y() = vec.z();
-            vec.z() = tmp;
+            float tmp = vec[1];
+            vec[1] = vec[2];
+            vec[2] = tmp;
             return vec;
         }
         if (up_axis_ == AxisDirection::AxisNegZ) {
-            float tmp = -vec.y();
-            vec.y() = vec.z();
-            vec.z() = tmp;
+            float tmp = -vec[1];
+            vec[1] = vec[2];
+            vec[2] = tmp;
             return vec;
         }
         if (up_axis_ == AxisDirection::AxisNegY) {
-            vec.y() *= -1;
+            vec[1] *= -1;
             return vec;
         }
 
@@ -72,27 +70,24 @@ public:
     void render(const sb::Program *program,
                 const sb::ColorScheme *colorscheme) override {
         std::vector<float> vertices, colors;
-        std::vector<Eigen::Vector3f> grid_vertices;
         float mid_point = scale_ * float(n_partition_) / 2;
 
         for (size_t i = 0; i <= n_partition_; ++i) {
-            grid_vertices.push_back(fix_coordinate_frame(
-                -mid_point, height_, i * scale_ - mid_point));
-            grid_vertices.push_back(fix_coordinate_frame(
-                mid_point, height_, i * scale_ - mid_point));
+            auto p1 = fix_coordinate_frame(-mid_point, height_,
+                                           i * scale_ - mid_point);
+            auto p2 = fix_coordinate_frame(mid_point, height_,
+                                           i * scale_ - mid_point);
+            vertices.insert(vertices.end(), p1.begin(), p1.end());
+            vertices.insert(vertices.end(), p2.begin(), p2.end());
         }
 
         for (size_t i = 0; i <= n_partition_; ++i) {
-            grid_vertices.push_back(fix_coordinate_frame(i * scale_ - mid_point,
-                                                         height_, -mid_point));
-            grid_vertices.push_back(fix_coordinate_frame(i * scale_ - mid_point,
-                                                         height_, mid_point));
-        }
-
-        for (auto &v : grid_vertices) {
-            vertices.push_back(v.x());
-            vertices.push_back(v.y());
-            vertices.push_back(v.z());
+            auto p1 = fix_coordinate_frame(i * scale_ - mid_point, height_,
+                                           -mid_point);
+            auto p2 = fix_coordinate_frame(i * scale_ - mid_point, height_,
+                                           mid_point);
+            vertices.insert(vertices.end(), p1.begin(), p1.end());
+            vertices.insert(vertices.end(), p2.begin(), p2.end());
         }
 
         for (size_t i = 0; i < vertices.size() / 3; ++i) {

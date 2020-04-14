@@ -1,6 +1,6 @@
 #include <seabass/seabass.h>
 
-#include <Eigen/Eigen>
+#include <Eigen/Dense>
 #include <sophus/se3.hpp>
 
 int main() {

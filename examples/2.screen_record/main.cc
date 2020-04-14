@@ -1,8 +1,6 @@
 #include <seabass/seabass.h>
 
-#include <Eigen/Eigen>
 #include <iostream>
-#include <sophus/se3.hpp>
 
 int main() {
     auto ctx = sb::Context(sb::colorscheme(sb::Theme::DARK));

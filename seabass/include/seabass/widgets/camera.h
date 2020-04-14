@@ -1,24 +1,25 @@
 #pragma once
+#if __has_include(<Eigen/Dense>)
+#if __has_include(<sophus/se3.hpp>)
 #include <seabass/vertex_array.h>
 #include <seabass/vertex_buffer.h>
 #include <seabass/widgets/base.h>
 
 #include <Eigen/Dense>
 #include <sophus/se3.hpp>
+
 namespace sb {
 namespace Widget {
 class Camera : public sb::Widget::Base {
 private:
     Sophus::SE3f T_wc_;
-    bool y_up_;
     float scale_, line_width_;
 
 public:
-    Camera(Sophus::SE3f T_wc = Sophus::SE3f(), bool y_up = true,
-           float scale = 1.f, float line_width = 1.f)
+    Camera(Sophus::SE3f T_wc = Sophus::SE3f(), float scale = 1.f,
+           float line_width = 1.f)
         : sb::Widget::Base(),
-          T_wc_(fix_coordinate_frame(T_wc, y_up)),
-          y_up_(y_up),
+          T_wc_(T_wc),
           scale_(scale),
           line_width_(line_width) {}
 
@@ -26,17 +27,8 @@ public:
     float &scale() { return scale_; }
     const float &line_width() const { return line_width_; }
     float &line_width() { return line_width_; }
-
-    static Sophus::SE3f fix_coordinate_frame(Sophus::SE3f T_wc, bool y_up) {
-        if (!y_up) {
-            Sophus::SE3f w = Sophus::SE3f(
-                (Eigen::Matrix<float, 4, 4>() << 1.f, 0.f, 0.f, 0.f, 0.f, -1.f,
-                 0.f, 0.f, 0.f, 0.f, -1.f, 0.f, 0.f, 0.f, 0.f, 1.f)
-                    .finished());
-            T_wc = w * T_wc;
-        }
-        return T_wc;
-    }
+    const Sophus::SE3f &T_wc() const { return T_wc_; }
+    Sophus::SE3f &T_wc() { return T_wc_; }
 
     static std::vector<float> camera_vertices(Sophus::SE3f T_wc,
                                               float scale = 1.f) {
@@ -66,10 +58,6 @@ public:
         return vertices;
     }
 
-    void set_T_wc(Sophus::SE3f T_wc) {
-        T_wc_ = fix_coordinate_frame(T_wc, y_up_);
-    }
-
     void render(const sb::Program *program,
                 const sb::ColorScheme *colorscheme) override {
         std::vector<float> vertices, colors;
@@ -90,3 +78,5 @@ public:
 };
 }  // namespace Widget
 }  // namespace sb
+#endif
+#endif

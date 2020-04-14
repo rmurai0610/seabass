@@ -1,8 +1,13 @@
 #pragma once
+#if __has_include(<Eigen/Dense>)
+#if __has_include(<sophus/se3.hpp>)
 #include <seabass/loader/trajectory.h>
 
+#include <Eigen/Dense>
 #include <fstream>
+#include <sophus/se3.hpp>
 #include <sstream>
+
 namespace sb::loader {
 class TUMTrajectory : public sb::loader::Trajectory {
 public:
@@ -26,5 +31,7 @@ public:
                                             Eigen::Vector3f(tx, ty, tz));
         }
     }
+};
 };  // namespace sb::loader
-};  // namespace sb::loader
+#endif
+#endif

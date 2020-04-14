@@ -1,5 +1,8 @@
 #pragma once
-#include <Eigen/Eigen>
+
+#if __has_include(<Eigen/Dense>)
+#if __has_include(<sophus/se3.hpp>)
+#include <Eigen/Dense>
 #include <sophus/se3.hpp>
 
 namespace sb {
@@ -51,3 +54,5 @@ public:
 };
 };  // namespace loader
 };  // namespace sb
+#endif
+#endif

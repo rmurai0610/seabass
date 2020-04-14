@@ -14,12 +14,9 @@
 #include <seabass/widgets/keyframes.h>
 #include <seabass/widgets/pointcloud.h>
 
-#include <Eigen/Dense>
 #include <array>
-#include <sophus/se3.hpp>
 
 namespace sb {
-
 class Widgets {
 private:
     const sb::Camera *camera_;
