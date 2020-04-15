@@ -1,11 +1,11 @@
 #pragma once
 
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wunused-function"
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-function"
 #define STB_IMAGE_IMPLEMENTATION
 
 #include <stb/stb_image.h>
-#pragma clang diagnostic pop
+#pragma GCC diagnostic pop
 
 #include <iostream>
 #if __has_include(<opencv2/core.hpp>)
