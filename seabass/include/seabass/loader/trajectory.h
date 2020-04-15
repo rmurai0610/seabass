@@ -1,29 +1,28 @@
 #pragma once
-
 #if __has_include(<Eigen/Dense>)
 #if __has_include(<sophus/se3.hpp>)
 #include <Eigen/Dense>
+#include <iostream>
 #include <sophus/se3.hpp>
 
 namespace sb {
 namespace loader {
+template <typename T>
+T from_string(const std::string &str) {
+    return str;
+}
+template <>
+int from_string<int>(const std::string &str) {
+    return std::stoi(str);
+}
+template <>
+float from_string<float>(const std::string &str) {
+    return std::stof(str);
+}
 class Trajectory {
 protected:
     std::vector<Sophus::SE3f> camera_poses_T_wc_;
     std::vector<float> timestamps_;
-
-    template <typename T>
-    T from_string(const std::string &str) const {
-        return str;
-    }
-    template <>
-    int from_string<int>(const std::string &str) const {
-        return std::stoi(str);
-    }
-    template <>
-    float from_string<float>(const std::string &str) const {
-        return std::stof(str);
-    }
 
     template <typename T>
     void split(const std::string &s, char delim, std::vector<T> &result) const {

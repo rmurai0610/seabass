@@ -33,6 +33,8 @@ private:
             case AxisDirection::AxisNegZ:
                 return glm::vec3(0, 0, -1);
         }
+        std::cerr << "to_vec3: Invalid axis\n";
+        std::exit(EXIT_FAILURE);
     }
     void set_up_coordinate_frame() {
         glm::vec3 right, up, forward;
