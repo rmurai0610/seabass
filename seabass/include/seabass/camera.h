@@ -104,6 +104,9 @@ public:
           at_(0, 0, 0) {}
 
     void activate() override {
+        if (ImGui::GetIO().WantCaptureMouse) {
+            return;
+        }
         auto mouse_delta = ImGui::GetIO().MouseDelta;
         if (ImGui::GetIO().MouseDown[0]) {
             // Left mouse is pressed down
