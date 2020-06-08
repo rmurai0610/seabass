@@ -3,3 +3,4 @@ build
 compile_commands.json
 imgui.ini
 *.mp4
+.ccls-cache
