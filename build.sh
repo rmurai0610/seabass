@@ -14,3 +14,5 @@ else
   git checkout `git tag | sort -V | grep -v "\-rc" | tail -1`;
   cd ..;
 fi
+
+echo "done"
