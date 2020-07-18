@@ -26,7 +26,7 @@ private:
             " 2> /dev/null";
         return c;
     }
-    void draw_red_dot() {
+    void draw_rec_dot() {
         float radius = 20;
         auto vbo_v = sb::VertexBuffer(std::vector<float>({0.9f, 0.9f, 0.f}), 3);
         auto vbo_c = sb::VertexBuffer(std::vector<float>({1.f, 0.f, 0.f}), 3);
@@ -76,7 +76,7 @@ public:
         if (ffmpeg_file_) {
             fwrite(pixels, width_ * height_ * 3, 1, ffmpeg_file_);
         }
-        draw_red_dot();
+        draw_rec_dot();
     }
 };
 };  // namespace sb
