@@ -11,7 +11,7 @@ endif()
 find_package(OpenGL REQUIRED)
 find_package(glfw3 REQUIRED)
 
-add_library(imgui
+add_library(imgui STATIC
   build/imgui/imgui_demo.cpp
   build/imgui/imgui.cpp
   build/imgui/imgui_draw.cpp
