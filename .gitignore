@@ -1,7 +1,7 @@
 build
 .clangd
 compile_commands.json
-imgui/
+/imgui/
 imgui.ini
 *.mp4
 .ccls-cache
