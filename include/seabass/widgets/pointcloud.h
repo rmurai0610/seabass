@@ -16,6 +16,7 @@ public:
     Pointcloud(const std::vector<float> &vertices,
                const std::vector<float> &colors, float point_size = 1.f)
         : sb::Widget::Base(), vertices_(vertices), colors_(colors), point_size_(point_size) {}
+    Pointcloud(float point_size = 1.f) : sb::Widget::Base(), point_size_(point_size) {}
 
     const float &point_size() const { return point_size_; }
     float &point_size() { return point_size_; }

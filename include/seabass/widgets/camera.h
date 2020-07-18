@@ -27,6 +27,7 @@ public:
     float &scale() { return scale_; }
     const float &line_width() const { return line_width_; }
     float &line_width() { return line_width_; }
+    void set_pose(Sophus::SE3f &T_wc) { T_wc_ = T_wc;}
     const Sophus::SE3f &T_wc() const { return T_wc_; }
     Sophus::SE3f &T_wc() { return T_wc_; }
 
