@@ -10,15 +10,13 @@
 
 namespace sb {
 enum class AxisDirection { AxisX, AxisY, AxisZ, AxisNegX, AxisNegY, AxisNegZ };
+
 class Camera {
 protected:
     sb::Window *window_;
-    float FoV_, min_disp_range_, max_disp_range_;
     sb::AxisDirection right_vec_, up_vec_;
-    glm::mat4 coordinate_system_;
 
-private:
-    glm::vec3 to_vec3(AxisDirection axis) const {
+    static glm::vec3 to_vec3(AxisDirection axis) {
         switch (axis) {
             case AxisDirection::AxisX:
                 return glm::vec3(1, 0, 0);
@@ -36,31 +34,21 @@ private:
         std::cerr << "to_vec3: Invalid axis\n";
         std::exit(EXIT_FAILURE);
     }
-    void set_up_coordinate_frame() {
-        glm::vec3 right, up, forward;
-        right = to_vec3(right_vec_);
-        up = to_vec3(up_vec_);
+
+    static glm::mat4 coordinate_system(const glm::vec3 &right, const glm::vec3&up) {
+        glm::vec3 forward;
         forward = glm::normalize(glm::cross(right, up));
-        coordinate_system_[0] = glm::vec4(right, 0.f);
-        coordinate_system_[1] = glm::vec4(up, 0.f);
-        coordinate_system_[2] = glm::vec4(forward, 0.f);
-        coordinate_system_[3] = glm::vec4(0.f, 0.f, 0.f, 1.f);
-        coordinate_system_ = glm::transpose(coordinate_system_);
+        glm::mat4 coordinate_system;
+        coordinate_system[0] = glm::vec4(right, 0.f);
+        coordinate_system[1] = glm::vec4(up, 0.f);
+        coordinate_system[2] = glm::vec4(forward, 0.f);
+        coordinate_system[3] = glm::vec4(0.f, 0.f, 0.f, 1.f);
+        return glm::transpose(coordinate_system);
     }
 
 public:
-    Camera(sb::Window *window, float FoV, float min_disp_range,
-           float max_disp_range, sb::AxisDirection right_vec,
-           sb::AxisDirection up_vec)
-        : window_(window),
-          FoV_(FoV),
-          min_disp_range_(min_disp_range),
-          max_disp_range_(max_disp_range),
-          right_vec_(right_vec),
-          up_vec_(up_vec) {
-        set_up_coordinate_frame();
-    }
-
+    Camera(sb::Window *window, AxisDirection right_vec, AxisDirection up_vec)
+        : window_(window), right_vec_(right_vec), up_vec_(up_vec) {}
     virtual ~Camera() {}
     virtual void activate() = 0;
     virtual glm::mat4 MVP() const = 0;
@@ -71,6 +59,9 @@ public:
 
 class ArcBallCamera : public Camera {
 private:
+    float FoV_, min_disp_range_, max_disp_range_;
+    glm::vec3 right_, up_;
+    glm::mat4 coordinate_system_;
     double yaw_, pitch_;
     double yaw_step_, pitch_step_, dist_step_;
     double dist_;
@@ -93,8 +84,13 @@ public:
     ArcBallCamera(sb::Window *window, float FoV, float min_disp_range,
                   float max_disp_range, sb::AxisDirection right_vec,
                   sb::AxisDirection up_vec)
-        : Camera(window, FoV, min_disp_range, max_disp_range, right_vec,
-                 up_vec),
+        : Camera(window, right_vec, up_vec),
+          FoV_(FoV),
+          min_disp_range_(min_disp_range),
+          max_disp_range_(max_disp_range),
+          right_(Camera::to_vec3(right_vec)),
+          up_(Camera::to_vec3(up_vec)),
+          coordinate_system_(Camera::coordinate_system(right_, up_)),
           yaw_(M_PI_2),
           pitch_(M_PI_2),
           yaw_step_(0.005),
@@ -143,6 +139,19 @@ public:
         glm::mat4 V = glm::lookAtRH(eye(), at_, up);
         glm::mat4 M = coordinate_system_;
         return P * V * M;
+    }
+};
+class Camera2d : public Camera {
+private:
+    glm::mat4 projection_;
+public:
+    Camera2d(sb::Window *window) : Camera(window, AxisDirection::AxisX, AxisDirection::AxisNegY) {
+      projection_ = glm::ortho(0, window_->width(), window_->height(), 0);
+    }
+    ~Camera2d() {}
+    void activate() {}
+    glm::mat4 MVP() const {
+        return projection_;
     }
 };
 };  // namespace sb

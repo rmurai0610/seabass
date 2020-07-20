@@ -79,6 +79,11 @@ public:
         return camera_.get();
     }
 
+    sb::Camera *create_camera2d() {
+        camera_ = std::make_unique<sb::Camera2d>(window_.get());
+        return camera_.get();
+    }
+
     sb::Recorder *create_recorder(std::string filename) {
         recorder_ = std::make_unique<sb::Recorder>(window_.get(), filename);
         return recorder_.get();
