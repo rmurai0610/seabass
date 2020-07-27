@@ -141,12 +141,13 @@ public:
         return P * V * M;
     }
 };
+
 class Camera2d : public Camera {
 private:
     glm::mat4 projection_;
 public:
     Camera2d(sb::Window *window) : Camera(window, AxisDirection::AxisX, AxisDirection::AxisNegY) {
-      projection_ = glm::ortho(0, window_->width(), window_->height(), 0);
+      projection_ = glm::ortho<float>(0.f, window_->width(), window_->height(), 0.f, 0.f, 100.f);
     }
     ~Camera2d() {}
     void activate() {}
