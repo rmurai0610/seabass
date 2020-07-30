@@ -4,7 +4,9 @@
 #include <seabass/widgets/camera.h>
 #include <seabass/widgets/camera_trajectory.h>
 #include <seabass/widgets/coordinate.h>
+#include <seabass/widgets/circle.h>
 #include <seabass/widgets/cube.h>
+#include <seabass/widgets/ellipse.h>
 #include <seabass/widgets/grid.h>
 #include <seabass/widgets/keyframes.h>
 #include <seabass/widgets/pointcloud.h>
