@@ -1,10 +1,5 @@
 #pragma once
 
-#include <seabass/camera.h>
-#include <seabass/program.h>
-#include <seabass/themes.h>
-#include <seabass/vertex_array.h>
-#include <seabass/vertex_buffer.h>
 #include <seabass/widgets/base.h>
 #include <seabass/widgets/camera.h>
 #include <seabass/widgets/camera_trajectory.h>

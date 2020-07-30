@@ -1,11 +1,10 @@
 #pragma once
-#include <seabass/widgets/base.h>
 namespace sb {
 namespace Widget {
 
-class Cube : public sb::Widget::Base {
+class Circle: public sb::Widget::Base {
 public:
-    Cube() : sb::Widget::Base() {}
+    Circle() : sb::Widget::Base() {}
     void render(const sb::Program *program,
                 const sb::ColorScheme *colorscheme) override {
         std::vector<float> vertices({-1.0, -1.0, 1.0,  1.0,  -1.0, 1.0,

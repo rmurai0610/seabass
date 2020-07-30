@@ -16,7 +16,7 @@
 #define have_opencv 0
 #endif
 
-#include <seabass/opengl_loader.h>
+#include <seabass/base/opengl_loader.h>
 
 namespace sb {
 class Image {

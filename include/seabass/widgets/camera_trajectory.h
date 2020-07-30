@@ -2,8 +2,6 @@
 
 #if __has_include(<Eigen/Dense>)
 #if __has_include(<sophus/se3.hpp>)
-#include <seabass/vertex_array.h>
-#include <seabass/vertex_buffer.h>
 #include <seabass/widgets/base.h>
 #include <seabass/widgets/camera.h>
 

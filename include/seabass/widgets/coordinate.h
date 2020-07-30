@@ -1,6 +1,4 @@
 #pragma once
-#include <seabass/vertex_array.h>
-#include <seabass/vertex_buffer.h>
 #include <seabass/widgets/base.h>
 namespace sb {
 namespace Widget {

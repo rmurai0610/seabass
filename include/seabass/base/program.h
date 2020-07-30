@@ -1,6 +1,6 @@
 #pragma once
-#include <seabass/opengl_loader.h>
-#include <seabass/uniforms.h>
+#include <seabass/base/opengl_loader.h>
+#include <seabass/base/uniforms.h>
 
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>

@@ -1,6 +1,6 @@
 #pragma once
-#include <seabass/opengl_loader.h>
-#include <seabass/window.h>
+#include <seabass/base/opengl_loader.h>
+#include <seabass/base/window.h>
 
 #include <algorithm>
 #include <cmath>

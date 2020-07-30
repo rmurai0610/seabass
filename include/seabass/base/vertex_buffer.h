@@ -1,5 +1,5 @@
 #pragma once
-#include <seabass/opengl_loader.h>
+#include <seabass/base/opengl_loader.h>
 
 #include <iostream>
 #include <string>

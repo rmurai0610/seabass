@@ -1,10 +1,10 @@
 #pragma once
-#include <seabass/camera.h>
-#include <seabass/opengl_loader.h>
-#include <seabass/recorder.h>
-#include <seabass/vertex_array.h>
-#include <seabass/vertex_buffer.h>
-#include <seabass/window.h>
+#include <seabass/base/camera.h>
+#include <seabass/base/opengl_loader.h>
+#include <seabass/base/recorder.h>
+#include <seabass/base/vertex_array.h>
+#include <seabass/base/vertex_buffer.h>
+#include <seabass/base/window.h>
 
 #include <algorithm>
 #include <cmath>

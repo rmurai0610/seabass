@@ -1,8 +1,10 @@
 #pragma once
 
-#include <seabass/camera.h>
-#include <seabass/program.h>
-#include <seabass/themes.h>
+#include <seabass/base/camera.h>
+#include <seabass/base/program.h>
+#include <seabass/base/themes.h>
+#include <seabass/base/vertex_array.h>
+#include <seabass/base/vertex_buffer.h>
 
 namespace sb {
 namespace Widget {

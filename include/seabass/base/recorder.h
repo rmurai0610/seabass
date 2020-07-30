@@ -1,8 +1,8 @@
 #pragma once
-#include <seabass/program.h>
-#include <seabass/vertex_array.h>
-#include <seabass/vertex_buffer.h>
-#include <seabass/window.h>
+#include <seabass/base/program.h>
+#include <seabass/base/vertex_array.h>
+#include <seabass/base/vertex_buffer.h>
+#include <seabass/base/window.h>
 
 #include <cstdio>
 #include <iostream>

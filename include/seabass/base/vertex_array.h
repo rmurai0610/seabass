@@ -1,7 +1,7 @@
 #pragma once
-#include <seabass/opengl_loader.h>
-#include <seabass/program.h>
-#include <seabass/vertex_buffer.h>
+#include <seabass/base/opengl_loader.h>
+#include <seabass/base/program.h>
+#include <seabass/base/vertex_buffer.h>
 
 #include <iostream>
 #include <string>
