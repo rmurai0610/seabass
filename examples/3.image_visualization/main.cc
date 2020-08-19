@@ -35,6 +35,11 @@ int main() {
             ImGui::SliderFloat("alpha", &alpha, 0.f, 1.f);
             seg.set_alpha(alpha);
             ImGui::End();
+            ImPlot::BeginPlot("My Plot");
+            float xs[3] = {0, 10, 20};
+            float ys[3] = {0, 10, 20};
+            ImPlot::PlotLine("My Line Plot", xs, ys, 3);
+            ImPlot::EndPlot();
         }
     }
     return 0;

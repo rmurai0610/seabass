@@ -2,6 +2,8 @@
 #include <imgui.h>
 #include <imgui_impl_glfw.h>
 #include <imgui_impl_opengl3.h>
+#include <implot.h>
+
 
 // Use snippet from ImGui to handle setting up OpenGL
 #if defined(IMGUI_IMPL_OPENGL_LOADER_GL3W)

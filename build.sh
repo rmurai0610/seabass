@@ -15,4 +15,16 @@ else
   cd ..;
 fi
 
+if [ -d "./imgui/implot" ]; then
+  echo "Checking if there are latest version of implot";
+  cd imgui/implot;
+  git fetch;
+  git checkout master;
+  cd ..;
+else
+  cd imgui;
+  git clone https://github.com/epezent/implot.git;
+  cd ..;
+fi
+
 echo "done"

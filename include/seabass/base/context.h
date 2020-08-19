@@ -24,6 +24,7 @@ private:
     void imgui_enable(const char *glsl_version) {
         IMGUI_CHECKVERSION();
         ImGui::CreateContext();
+        ImPlot::CreateContext();
         // Setup Dear ImGui style
         if (colorscheme_.theme() == Theme::DARK) {
             ImGui::StyleColorsDark();
@@ -49,6 +50,7 @@ public:
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
         ImGui_ImplOpenGL3_Shutdown();
         ImGui_ImplGlfw_Shutdown();
+        ImPlot::DestroyContext();
         ImGui::DestroyContext();
     }
 

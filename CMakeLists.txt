@@ -23,6 +23,8 @@ add_library(imgui STATIC
   imgui/examples/imgui_impl_glfw.cpp
   imgui/examples/imgui_impl_opengl3.cpp
   imgui/examples/libs/gl3w/GL/gl3w.c
+  imgui/implot/implot.cpp
+  imgui/implot/implot_items.cpp
 )
 set_target_properties(imgui PROPERTIES LINKER_LANGUAGE CXX)
 if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
@@ -38,6 +40,7 @@ target_include_directories(imgui PUBLIC
   imgui/
   imgui/examples/
   imgui/examples/libs/gl3w/
+  imgui/implot/
 )
 target_include_directories(imgui SYSTEM PUBLIC $ENV{INCLUDE})
 target_link_libraries(imgui PUBLIC
