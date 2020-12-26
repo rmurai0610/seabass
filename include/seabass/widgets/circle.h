@@ -47,6 +47,13 @@ private:
     }
 public:
     Circle(float cx, float cy, float radius, bool filled=false) : sb::Widget::Base(), cx_(cx), cy_(cy), radius_(radius), filled_(filled) {}
+    const float &cx() const { return cx_; }
+    const float &cy() const { return cy_; }
+    const float &radius() const { return radius_; }
+    float &cx() { return cx_; }
+    float &cy() { return cy_; }
+    float &radius() { return radius_; }
+
     void render(const sb::Program *program,
                 const sb::ColorScheme *colorscheme) override {
         std::vector<float> vertices, colors;
