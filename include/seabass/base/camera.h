@@ -145,14 +145,28 @@ public:
 class Camera2d : public Camera {
 private:
     glm::mat4 projection_;
+    float x_, y_, scale_;
+
 public:
-    Camera2d(sb::Window *window) : Camera(window, AxisDirection::AxisX, AxisDirection::AxisNegY) {
+    Camera2d(sb::Window *window) : Camera(window, AxisDirection::AxisX, AxisDirection::AxisNegY),
+    x_(0.f), y_(0.f), scale_(0.f)
+    {
       projection_ = glm::ortho<float>(0.f, window_->width(), window_->height(), 0.f, 0.f, 100.f);
     }
     ~Camera2d() {}
-    void activate() {}
+    void activate() {
+        if (ImGui::GetIO().WantCaptureMouse) { return; }
+        auto mouse_delta = ImGui::GetIO().MouseDelta;
+        if (ImGui::GetIO().MouseDown[0]) {
+            // Left mouse is pressed down
+            x_ += mouse_delta.x;
+            y_ -= mouse_delta.y;
+        }
+        // Handle Scrolling
+        scale_ += ImGui::GetIO().MouseWheel * 1;
+    }
     glm::mat4 MVP() const {
-        return projection_;
+        return glm::ortho<float>(-x_ - scale_, window_->width() - x_ + scale_, window_->height() + y_ + scale_, y_ - scale_, 0.f, 100.f);
     }
 };
 };  // namespace sb
